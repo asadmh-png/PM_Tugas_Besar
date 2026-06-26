@@ -21,6 +21,11 @@ class ReturActivity : AppCompatActivity() {
         val etAlasanRetur = findViewById<TextInputEditText>(R.id.etAlasanRetur)
         val btnProsesRetur = findViewById<MaterialButton>(R.id.btnProsesRetur)
 
+        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbarRetur)
+        toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         // Logika saat tombol Cari ditekan
         btnCariNota.setOnClickListener {
             val nomorNota = etNomorNota.text.toString()

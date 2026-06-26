@@ -1,107 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:background="#F0F2F5">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mutasi Barang (TO / TI)"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pilih Jenis Aksi:"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp"/>
-
-    <RadioGroup
-        android:id="@+id/rgJenisMutasi"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarMutasi"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="24dp">
-
-        <RadioButton
-            android:id="@+id/rbKirim"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kirim Barang (TO)"
-            android:layout_weight="1"/>
-
-        <RadioButton
-            android:id="@+id/rbTerima"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Terima Barang (TI)"
-            android:layout_weight="1"/>
-    </RadioGroup>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        app:navigationIcon="@drawable/abc_ic_ab_back_material"
+        app:title="Mutasi Barang (TO / TI)"
+        app:titleTextColor="#333333" />
 
     <LinearLayout
-        android:id="@+id/layoutKirim"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:padding="24dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilih Jenis Aksi:"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgJenisMutasi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Pilih Toko Tujuan"
-            android:layout_marginBottom="16dp">
-            <AutoCompleteTextView
-                android:id="@+id/actvTokoTujuan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <RadioButton
+                android:id="@+id/rbKirim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kirim Barang (TO)"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:id="@+id/rbTerima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Terima Barang (TI)"
+                android:layout_weight="1"/>
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/layoutKirim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Scan Barcode / Kode Barang"
-            android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etBarcodeMutasi"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="Pilih Toko Tujuan"
+                android:layout_marginBottom="16dp">
+                <AutoCompleteTextView
+                    android:id="@+id/actvTokoTujuan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Scan Barcode / Kode Barang"
+                android:layout_marginBottom="16dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBarcodeMutasi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutTerima"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nomor Resi Pengiriman"
+                android:layout_marginBottom="16dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNomorResi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnProsesMutasi"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="PROSES MUTASI"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:enabled="false"/>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutTerima"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nomor Resi Pengiriman"
-            android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNomorResi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"/>
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnProsesMutasi"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="PROSES MUTASI"
-        android:textSize="16sp"
-        android:layout_marginTop="16dp"
-        android:enabled="false"/> </LinearLayout>
+</LinearLayout>

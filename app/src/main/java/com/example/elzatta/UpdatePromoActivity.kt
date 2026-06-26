@@ -12,6 +12,11 @@ class UpdatePromoActivity : AppCompatActivity() {
 
         val btnSyncPromo = findViewById<MaterialButton>(R.id.btnSyncPromo)
 
+        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbarUpdatePromo)
+        toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         btnSyncPromo.setOnClickListener {
             // Simulasi proses sinkronisasi
             Toast.makeText(this, "Mengunduh data promo dari server pusat...", Toast.LENGTH_LONG).show()

@@ -27,6 +27,11 @@ class TutupTokoActivity : AppCompatActivity() {
         val tvStatusSelisih = findViewById<TextView>(R.id.tvStatusSelisih)
         val btnTutupToko = findViewById<MaterialButton>(R.id.btnTutupToko)
 
+        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbarTutupToko)
+        toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         // Tampilkan total sistem ke layar
         tvTotalSistem.text = "Rp $totalSistem"
 

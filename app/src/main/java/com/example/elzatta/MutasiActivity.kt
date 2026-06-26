@@ -26,6 +26,11 @@ class MutasiActivity : AppCompatActivity() {
         val etNomorResi = findViewById<TextInputEditText>(R.id.etNomorResi)
         val btnProsesMutasi = findViewById<MaterialButton>(R.id.btnProsesMutasi)
 
+        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbarMutasi)
+        toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         // Setup Dropdown Toko Tujuan
         val daftarToko = listOf("Elzatta BIP", "Elzatta Trans Studio", "Elzatta Ciwalk", "Gudang Pusat")
         val adapterToko = ArrayAdapter(this, android.R.layout.simple_list_item_1, daftarToko)

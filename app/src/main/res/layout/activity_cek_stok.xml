@@ -1,79 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:background="#F0F2F5">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarCekStok"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        app:navigationIcon="@drawable/abc_ic_ab_back_material"
+        app:title="Cek Stok Barang"
+        app:titleTextColor="#333333" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingBottom="24dp"
+        android:paddingTop="8dp"
+        android:background="@android:color/white">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cari Nama atau Barcode">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etBarcodeCek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cek Stok Barang"
-        android:textSize="24sp"
+        android:text="Daftar Stok Produk"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#757575"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProdukStok"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Scan Barcode / Ketik Kode Barang"
-        android:layout_marginBottom="16dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etBarcodeCek"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCariStok"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="CARI BARANG"
-        android:layout_marginBottom="24dp"/>
-
-    <LinearLayout
-        android:id="@+id/layoutHasilStok"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:background="#F5F5F5"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/tvNamaBarangCek"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nama Barang"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/tvHargaBarang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Harga: Rp 0"
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sisa Stok di Toko Ini:"
-            android:textSize="14sp"/>
-
-        <TextView
-            android:id="@+id/tvJumlahStok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="15 Pcs"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#1976D2"/>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"/>
 
 </LinearLayout>

@@ -3,51 +3,28 @@ package com.example.elzatta // Sesuaikan dengan nama package kamu!
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
+
 
 class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        // Kenalkan tombol-tombol
-        val btnMenuTransaksi = findViewById<MaterialButton>(R.id.btnMenuTransaksi)
-        val btnMenuRetur = findViewById<MaterialButton>(R.id.btnMenuRetur)
-        val btnMenuMutasi = findViewById<MaterialButton>(R.id.btnMenuMutasi)
-        val btnMenuTutupToko = findViewById<MaterialButton>(R.id.btnMenuTutupToko)
-        val btnMenuCekStok = findViewById<MaterialButton>(R.id.btnMenuCekStok)
-        val btnMenuUpdatePromo = findViewById<MaterialButton>(R.id.btnMenuUpdatePromo)
+// ... di dalam onCreate:
+        val cardTransaksi = findViewById<MaterialCardView>(R.id.cardTransaksi)
+        val cardRetur = findViewById<MaterialCardView>(R.id.cardRetur)
+        val cardMutasi = findViewById<MaterialCardView>(R.id.cardMutasi)
+        val cardTutupToko = findViewById<MaterialCardView>(R.id.cardTutupToko)
+        val cardCekStok = findViewById<MaterialCardView>(R.id.cardCekStok)
+        val cardUpdatePromo = findViewById<MaterialCardView>(R.id.cardUpdatePromo)
 
-        // Pasang Intent (Navigasi) ke masing-masing halaman
-        btnMenuTransaksi.setOnClickListener {
-            val intent = Intent(this, TransaksiActivity::class.java)
-            startActivity(intent)
-        }
-
-        btnMenuRetur.setOnClickListener {
-            val intent = Intent(this, ReturActivity::class.java)
-            startActivity(intent)
-        }
-
-        btnMenuMutasi.setOnClickListener {
-            val intent = Intent(this, MutasiActivity::class.java)
-            startActivity(intent)
-        }
-
-        btnMenuTutupToko.setOnClickListener {
-            val intent = Intent(this, TutupTokoActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Fungsi kliknya (taruh di bawah Intent yang sudah ada)
-        btnMenuCekStok.setOnClickListener {
-            val intent = Intent(this, CekStokActivity::class.java)
-            startActivity(intent)
-        }
-
-        btnMenuUpdatePromo.setOnClickListener {
-            val intent = Intent(this, UpdatePromoActivity::class.java)
-            startActivity(intent)
+// Listener
+        cardTransaksi.setOnClickListener { startActivity(Intent(this, TransaksiActivity::class.java)) }
+        cardRetur.setOnClickListener { startActivity(Intent(this, ReturActivity::class.java)) }
+        cardMutasi.setOnClickListener { startActivity(Intent(this, MutasiActivity::class.java)) }
+        cardTutupToko.setOnClickListener { startActivity(Intent(this, TutupTokoActivity::class.java)) }
+        cardCekStok.setOnClickListener { startActivity(Intent(this, CekStokActivity::class.java)) }
+        cardUpdatePromo.setOnClickListener { startActivity(Intent(this, UpdatePromoActivity::class.java)) }
         }
     }
-}
