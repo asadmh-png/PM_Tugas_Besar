@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import android.content.Intent
 
 class BukaKasirActivity : AppCompatActivity() {
 
@@ -66,6 +67,13 @@ class BukaKasirActivity : AppCompatActivity() {
              * untuk pindah ke halaman "Transaksi Penjualan" (Intent)
              * dan mengirim data ini ke teman Backend kamu.
              */
+
+            // ---- TAMBAHKAN 2 BARIS INI UNTUK PINDAH KE DASHBOARD ----
+            val intent = Intent(this, DashboardActivity::class.java)
+            startActivity(intent)
+
+            // Tambahkan finish() agar kasir tidak bisa kembali ke halaman Buka Kasir dengan menekan tombol Back di HP
+            finish()
         }
     }
 }

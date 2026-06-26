@@ -13,15 +13,17 @@
         android:theme="@style/Theme.Elzatta">
 
         <activity
-            android:name=".TransaksiActivity"
+            android:name=".BukaKasirActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".DashboardActivity" />
+        <activity android:name=".TransaksiActivity" />
         <activity android:name=".ReturActivity" />
-        <activity android:name=".BukaKasirActivity" />
         <activity android:name=".MutasiActivity" />
         <activity android:name=".TutupTokoActivity" />
     </application>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dashboard BPOS"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pilih menu transaksi di bawah ini"
+        android:textSize="16sp"
+        android:layout_marginBottom="32dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMenuTransaksi"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="1. TRANSAKSI PENJUALAN"
+        android:layout_marginBottom="16dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMenuRetur"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="2. RETUR PENJUALAN"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMenuMutasi"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="3. MUTASI BARANG (TO / TI)"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMenuTutupToko"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="4. TUTUP TOKO (Z-REPORT)"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#D32F2F"/>
+
+</LinearLayout>
