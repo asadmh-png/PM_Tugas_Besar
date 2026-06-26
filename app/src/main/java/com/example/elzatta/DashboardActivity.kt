@@ -15,6 +15,8 @@ class DashboardActivity : AppCompatActivity() {
         val btnMenuRetur = findViewById<MaterialButton>(R.id.btnMenuRetur)
         val btnMenuMutasi = findViewById<MaterialButton>(R.id.btnMenuMutasi)
         val btnMenuTutupToko = findViewById<MaterialButton>(R.id.btnMenuTutupToko)
+        val btnMenuCekStok = findViewById<MaterialButton>(R.id.btnMenuCekStok)
+        val btnMenuUpdatePromo = findViewById<MaterialButton>(R.id.btnMenuUpdatePromo)
 
         // Pasang Intent (Navigasi) ke masing-masing halaman
         btnMenuTransaksi.setOnClickListener {
@@ -34,6 +36,17 @@ class DashboardActivity : AppCompatActivity() {
 
         btnMenuTutupToko.setOnClickListener {
             val intent = Intent(this, TutupTokoActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Fungsi kliknya (taruh di bawah Intent yang sudah ada)
+        btnMenuCekStok.setOnClickListener {
+            val intent = Intent(this, CekStokActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnMenuUpdatePromo.setOnClickListener {
+            val intent = Intent(this, UpdatePromoActivity::class.java)
             startActivity(intent)
         }
     }

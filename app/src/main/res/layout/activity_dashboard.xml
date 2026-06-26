@@ -46,10 +46,26 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMenuCekStok"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="4. CEK STOK BARANG"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMenuUpdatePromo"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="5. UPDATE PROMO"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"/>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnMenuTutupToko"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="4. TUTUP TOKO (Z-REPORT)"
+        android:text="6. TUTUP TOKO (Z-REPORT)"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#D32F2F"/>
 

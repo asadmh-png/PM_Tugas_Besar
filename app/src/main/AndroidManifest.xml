@@ -26,6 +26,8 @@
         <activity android:name=".ReturActivity" />
         <activity android:name=".MutasiActivity" />
         <activity android:name=".TutupTokoActivity" />
+        <activity android:name=".CekStokActivity" />
+        <activity android:name=".UpdatePromoActivity" />
     </application>
 
 
