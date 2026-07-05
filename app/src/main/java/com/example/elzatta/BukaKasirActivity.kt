@@ -10,6 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import android.content.Intent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BukaKasirActivity : AppCompatActivity() {
 
@@ -60,20 +64,27 @@ class BukaKasirActivity : AppCompatActivity() {
             val rbShiftTerpilih = findViewById<RadioButton>(shiftTerpilihId)
             val namaShift = rbShiftTerpilih.text.toString()
 
-            // Menampilkan notifikasi sukses sementara
-            Toast.makeText(this, "Berhasil! $namaKasir membuka $mesinTerpilih untuk Shift $namaShift", Toast.LENGTH_LONG).show()
+            // ---- PROSES SIMPAN KE DATABASE ROOM ----
+            val session = KasirSession(
+                nomorMesin = mesinTerpilih,
+                namaKasir = namaKasir,
+                modalAwal = modalAwal.toDoubleOrNull() ?: 0.0,
+                shift = namaShift
+            )
 
-            /* * TODO: Di tahap selanjutnya, di baris ini kita akan menuliskan kode
-             * untuk pindah ke halaman "Transaksi Penjualan" (Intent)
-             * dan mengirim data ini ke teman Backend kamu.
-             */
-
-            // ---- TAMBAHKAN 2 BARIS INI UNTUK PINDAH KE DASHBOARD ----
-            val intent = Intent(this, DashboardActivity::class.java)
-            startActivity(intent)
-
-            // Tambahkan finish() agar kasir tidak bisa kembali ke halaman Buka Kasir dengan menekan tombol Back di HP
-            finish()
+            // Jalankan di background thread agar tidak membuat UI lag
+            CoroutineScope(Dispatchers.IO).launch {
+                val db = AppDatabase.getDatabase(this@BukaKasirActivity)
+                db.kasirDao().insertSession(session)
+                
+                // Setelah simpan, balik ke UI thread untuk pindah halaman
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@BukaKasirActivity, "Sesi Kasir Berhasil Dibuka!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@BukaKasirActivity, DashboardActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
         }
     }
 }
