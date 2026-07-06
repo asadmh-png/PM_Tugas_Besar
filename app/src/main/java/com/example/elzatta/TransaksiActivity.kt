@@ -77,7 +77,8 @@ class TransaksiActivity : AppCompatActivity() {
                     if (existingItem != null) {
                         existingItem.qty += 1
                     } else {
-                        daftarKeranjang.add(Barang(product.barcode, product.nama, 1, product.harga))
+                        val hargaFinal = if (product.hargaPromo > 0) product.hargaPromo else product.harga
+                        daftarKeranjang.add(Barang(product.barcode, product.nama, 1, hargaFinal))
                     }
                     adapter.notifyDataSetChanged()
                     hitungTotalBayar()

@@ -21,4 +21,16 @@ interface ProductDao {
 
     @Query("UPDATE products SET stok = stok + :qty WHERE barcode = :barcode")
     suspend fun tambahStok(barcode: String, qty: Int)
+
+    @Query("UPDATE products SET harga_promo = 0")
+    suspend fun clearAllPromos()
+
+    @Query("UPDATE products SET harga_promo = :harga WHERE barcode = :barcode")
+    suspend fun setPromoPrice(barcode: String, harga: Int)
+
+    @androidx.room.Transaction
+    suspend fun updatePromoSimulation() {
+        setPromoPrice("8881", 12000)
+        setPromoPrice("8882", 10000)
+    }
 }

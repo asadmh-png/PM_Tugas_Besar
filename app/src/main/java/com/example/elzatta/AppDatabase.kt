@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [KasirSession::class, User::class, Product::class, PendingOrder::class, SaleTransaction::class, TransactionItem::class], version = 5)
+@Database(entities = [KasirSession::class, User::class, Product::class, PendingOrder::class, SaleTransaction::class, TransactionItem::class], version = 6)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun kasirDao(): KasirDao
     abstract fun userDao(): UserDao

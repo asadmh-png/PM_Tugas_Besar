@@ -32,6 +32,7 @@
             android:textAlignment="center"/>
 
         <TextView
+            android:id="@+id/tvLastSync"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Terakhir diupdate: Belum pernah"
@@ -43,6 +44,13 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="UPDATE PROMO SEKARANG"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"/>
+
+        <ProgressBar
+            android:id="@+id/pbLoadingPromo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>
