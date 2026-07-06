@@ -43,12 +43,13 @@ class TransaksiBerhasilActivity : AppCompatActivity() {
         val bayar = intent.getIntExtra("UANG_BAYAR", 0)
         val kembali = intent.getIntExtra("UANG_KEMBALI", 0)
         val daftarBarang = intent.getStringExtra("DAFTAR_BARANG") ?: ""
+        val nomorNota = intent.getStringExtra("NOMOR_NOTA") ?: "ELZ-${System.currentTimeMillis() % 100000}"
 
         return """
             ELZATTA HIJAB - STORE
             =========================
             Waktu: ${SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault()).format(Date())}
-            No. Resi: ELZ-${System.currentTimeMillis() % 100000}
+            No. Nota: $nomorNota
             Metode: $metode
             -------------------------
             $daftarBarang

@@ -149,7 +149,7 @@ class PembayaranDialogFragment : BottomSheetDialogFragment() {
         val totalBelanja = activity?.getTotalBelanja() ?: 0
         val listBarangString = activity?.getDaftarBarangString() ?: ""
         
-        activity?.selesaikanTransaksi()
+        val nomorNota = activity?.selesaikanTransaksi(metode) ?: ""
 
         val intent = Intent(requireContext(), TransaksiBerhasilActivity::class.java).apply {
             putExtra("METODE_BAYAR", metode)
@@ -157,6 +157,7 @@ class PembayaranDialogFragment : BottomSheetDialogFragment() {
             putExtra("UANG_BAYAR", bayar)
             putExtra("UANG_KEMBALI", kembali)
             putExtra("DAFTAR_BARANG", listBarangString)
+            putExtra("NOMOR_NOTA", nomorNota)
         }
         startActivity(intent)
         dismiss()

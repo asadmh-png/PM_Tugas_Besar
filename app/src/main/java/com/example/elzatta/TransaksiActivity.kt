@@ -172,19 +172,48 @@ class TransaksiActivity : AppCompatActivity() {
         }
     }
 
-    fun selesaikanTransaksi() {
+    fun selesaikanTransaksi(metode: String): String {
+        val nomorNota = "ELZ-${System.currentTimeMillis() % 1000000}"
+        val total = getTotalBelanja()
+        val tanggal = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
         val copyKeranjang = ArrayList(daftarKeranjang)
+
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(this@TransaksiActivity)
+            
+            // 1. Simpan Header Transaksi
+            val transaction = SaleTransaction(
+                nomorNota = nomorNota,
+                tanggal = tanggal,
+                totalHarga = total,
+                statusTransaksi = "Lunas",
+                metodeBayar = metode
+            )
+            
+            // 2. Simpan Item Transaksi & Update Stok
+            val items = copyKeranjang.map { 
+                TransactionItem(
+                    nomorNota = nomorNota,
+                    barcode = it.barcode,
+                    nama = it.nama,
+                    qty = it.qty,
+                    harga = it.hargaSatuan
+                )
+            }
+            
+            db.transactionDao().insertFullTransaction(transaction, items)
+            
             copyKeranjang.forEach { barang ->
                 db.productDao().updateStok(barang.barcode, barang.qty)
             }
+
             withContext(Dispatchers.Main) {
                 daftarKeranjang.clear()
                 adapter.notifyDataSetChanged()
                 hitungTotalBayar()
             }
         }
+        return nomorNota
     }
 
     fun getTotalBelanja(): Int {

@@ -18,4 +18,7 @@ interface ProductDao {
 
     @Query("UPDATE products SET stok = stok - :qty WHERE barcode = :barcode")
     suspend fun updateStok(barcode: String, qty: Int)
+
+    @Query("UPDATE products SET stok = stok + :qty WHERE barcode = :barcode")
+    suspend fun tambahStok(barcode: String, qty: Int)
 }
