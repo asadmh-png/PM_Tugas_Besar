@@ -12,9 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import android.content.Intent
+import android.view.inputmethod.EditorInfo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // 1. Kita buat struktur data sederhana untuk Barang
-data class Barang(val nama: String, val qty: Int, val hargaSatuan: Int) {
+data class Barang(val barcode: String, val nama: String, var qty: Int, val hargaSatuan: Int) {
     val subtotal get() = qty * hargaSatuan
 }
 
@@ -26,24 +31,9 @@ class TransaksiActivity : AppCompatActivity() {
 
     // Tambahkan fungsi ini di dalam kelas TransaksiActivity
     private fun loadDataTertunda(id: String) {
-        // 1. Logika untuk mengambil data dari database/list berdasarkan ID
-        // Contoh sederhana:
-        Toast.makeText(this, "Memuat data pesanan: $id", Toast.LENGTH_SHORT).show()
-
-        // 2. Di sini kamu akan mengisi 'daftarKeranjang' dengan data yang diambil
-        // Contoh:
-        // val data = database.getTransaksi(id)
-        // daftarKeranjang.clear()
-        // daftarKeranjang.addAll(data)
-
-        // 3. Update tampilan agar RecyclerView menampilkan data baru
-        adapter.notifyDataSetChanged()
-
-        // 4. Hitung ulang total bayar
-        hitungTotalBayar()
+        // ... (sisanya tetap atau sesuaikan nanti)
     }
 
-    // Pastikan kamu punya fungsi untuk menghitung ulang total
     private fun hitungTotalBayar() {
         var total = 0
         for (barang in daftarKeranjang) {
@@ -51,6 +41,29 @@ class TransaksiActivity : AppCompatActivity() {
         }
         val tvTotalBayar = findViewById<TextView>(R.id.tvTotalBayar)
         tvTotalBayar.text = "Rp $total"
+    }
+
+    private fun tambahBarangKeKeranjang(barcode: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = AppDatabase.getDatabase(this@TransaksiActivity)
+            val product = db.productDao().getProductByBarcode(barcode)
+
+            withContext(Dispatchers.Main) {
+                if (product != null) {
+                    val existingItem = daftarKeranjang.find { it.barcode == barcode }
+                    if (existingItem != null) {
+                        existingItem.qty += 1
+                    } else {
+                        daftarKeranjang.add(Barang(product.barcode, product.nama, 1, product.harga))
+                    }
+                    adapter.notifyDataSetChanged()
+                    hitungTotalBayar()
+                    findViewById<TextInputEditText>(R.id.etBarcode).text?.clear()
+                } else {
+                    Toast.makeText(this@TransaksiActivity, "Produk tidak ditemukan!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,25 +84,29 @@ class TransaksiActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // 2. Isi dengan Dummy Data (Data Palsu untuk cek UI)
-        daftarKeranjang.add(Barang("Tunik Elzatta Pink", 1, 150000))
-        daftarKeranjang.add(Barang("Scarf Motif Bunga", 2, 75000))
-        daftarKeranjang.add(Barang("Bergo Instan Hitam", 1, 85000))
-
         // 3. Setup RecyclerView
         adapter = KeranjangAdapter(daftarKeranjang)
         rvKeranjang.layoutManager = LinearLayoutManager(this)
         rvKeranjang.adapter = adapter
 
-        // Hitung total bayar
-        var totalKeseluruhan = 0
-        for (barang in daftarKeranjang) {
-            totalKeseluruhan += barang.subtotal
+        etBarcode.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+                val barcode = etBarcode.text.toString()
+                if (barcode.isNotEmpty()) {
+                    tambahBarangKeKeranjang(barcode)
+                }
+                true
+            } else {
+                false
+            }
         }
-        tvTotalBayar.text = "Rp $totalKeseluruhan"
 
         // 4. Logika Tombol
         btnBayar.setOnClickListener {
+            if (daftarKeranjang.isEmpty()) {
+                Toast.makeText(this, "Keranjang kosong!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val dialog = PembayaranDialogFragment()
             dialog.show(supportFragmentManager, "PembayaranDialog")
         }

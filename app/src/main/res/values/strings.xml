@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Elzatta</string>
+    <string name="title_buka_kasir">Buka Kasir</string>
+    <string name="hint_nomor_mesin">Nomor Mesin Kasir</string>
+    <string name="hint_nama_kasir">ID Kasir (Contoh: K001)</string>
+    <string name="hint_modal_awal">Nominal Modal Awal (Rp)</string>
+    <string name="label_shift_kerja">Pilih Shift Kerja:</string>
+    <string name="shift_pagi">Pagi</string>
+    <string name="shift_siang">Siang</string>
+    <string name="btn_save_buka_kasir">SAVE / BUKA KASIR</string>
+    <string name="error_mesin_kosong">Pilih mesin kasir terlebih dahulu!</string>
+    <string name="error_id_kosong">Masukkan ID Kasir!</string>
+    <string name="error_modal_kosong">Nominal modal awal harus diisi!</string>
+    <string name="error_shift_kosong">Silakan pilih shift kerja!</string>
+    <string name="error_id_tidak_terdaftar">ID Kasir tidak terdaftar!</string>
+    <string name="success_buka_kasir">Selamat bertugas, %1$s!</string>
 </resources>

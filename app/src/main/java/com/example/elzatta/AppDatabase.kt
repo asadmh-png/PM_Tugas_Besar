@@ -5,9 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [KasirSession::class], version = 1)
+@Database(entities = [KasirSession::class, User::class, Product::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun kasirDao(): KasirDao
+    abstract fun userDao(): UserDao
+    abstract fun productDao(): ProductDao
 
     companion object {
         @Volatile
@@ -19,7 +21,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "elzatta_bpos_db"
-                ).build()
+                )
+                .fallbackToDestructiveMigration() // Penting saat tahap pengembangan untuk reset DB jika skema berubah
+                .build()
                 INSTANCE = instance
                 instance
             }
