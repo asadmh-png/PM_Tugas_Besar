@@ -172,6 +172,31 @@ class TransaksiActivity : AppCompatActivity() {
         }
     }
 
+    fun selesaikanTransaksi() {
+        val copyKeranjang = ArrayList(daftarKeranjang)
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = AppDatabase.getDatabase(this@TransaksiActivity)
+            copyKeranjang.forEach { barang ->
+                db.productDao().updateStok(barang.barcode, barang.qty)
+            }
+            withContext(Dispatchers.Main) {
+                daftarKeranjang.clear()
+                adapter.notifyDataSetChanged()
+                hitungTotalBayar()
+            }
+        }
+    }
+
+    fun getTotalBelanja(): Int {
+        return daftarKeranjang.sumOf { it.subtotal }
+    }
+
+    fun getDaftarBarangString(): String {
+        return daftarKeranjang.joinToString("\n") { 
+            "${it.nama.padEnd(15)} ${it.qty}x${it.hargaSatuan} = ${it.subtotal}"
+        }
+    }
+
     // =========================================================================
     // INNER CLASS: ADAPTER (Ini adalah "jembatan" antara data dan RecyclerView)
     // =========================================================================

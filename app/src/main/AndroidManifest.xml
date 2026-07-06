@@ -29,6 +29,7 @@
     <activity android:name=".UpdatePromoActivity" />
 
     <activity android:name=".PesananTertundaActivity" />
+    <activity android:name=".TransaksiBerhasilActivity" />
 
 </application>
 </manifest>
