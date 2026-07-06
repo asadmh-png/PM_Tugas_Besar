@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "pending_orders")
-data class wPendingOrder(
+data class PendingOrder(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val totalHarga: Int,

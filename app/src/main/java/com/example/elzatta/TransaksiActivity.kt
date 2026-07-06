@@ -156,7 +156,6 @@ class TransaksiActivity : AppCompatActivity() {
                     Toast.makeText(this@TransaksiActivity, "Pesanan ditunda", Toast.LENGTH_SHORT).show()
                     daftarKeranjang.clear()
                     adapter.notifyDataSetChanged()
-                    val tvTotalBayar = findViewById<TextView>(R.id.tvTotalBayar)
                     tvTotalBayar.text = "Rp 0"
                 }
             }
