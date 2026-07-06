@@ -19,8 +19,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 // 1. Kita buat struktur data sederhana untuk Barang
-data class Barang(val barcode: String, val nama: String, var qty: Int, val hargaSatuan: Int) {
+data class Barang(
+    val barcode: String,
+    val nama: String,
+    var qty: Int,
+    val hargaSatuan: Int,
+    val hargaAsli: Int = hargaSatuan
+) {
     val subtotal get() = qty * hargaSatuan
+    val totalDiskon get() = (hargaAsli - hargaSatuan) * qty
 }
 
 class TransaksiActivity : AppCompatActivity() {
@@ -41,8 +48,13 @@ class TransaksiActivity : AppCompatActivity() {
                     // Deserialize string ke object Barang
                     order.daftarBarang.split("|").forEach { stringBarang ->
                         val part = stringBarang.split(":")
-                        if (part.size == 4) {
-                            daftarKeranjang.add(Barang(part[0], part[1], part[2].toInt(), part[3].toInt()))
+                        if (part.size >= 4) {
+                            val barcode = part[0]
+                            val nama = part[1]
+                            val qty = part[2].toInt()
+                            val hargaSatuan = part[3].toInt()
+                            val hargaAsli = if (part.size == 5) part[4].toInt() else hargaSatuan
+                            daftarKeranjang.add(Barang(barcode, nama, qty, hargaSatuan, hargaAsli))
                         }
                     }
                     adapter.notifyDataSetChanged()
@@ -78,7 +90,7 @@ class TransaksiActivity : AppCompatActivity() {
                         existingItem.qty += 1
                     } else {
                         val hargaFinal = if (product.hargaPromo > 0) product.hargaPromo else product.harga
-                        daftarKeranjang.add(Barang(product.barcode, product.nama, 1, hargaFinal))
+                        daftarKeranjang.add(Barang(product.barcode, product.nama, 1, hargaFinal, product.harga))
                     }
                     adapter.notifyDataSetChanged()
                     hitungTotalBayar()
@@ -144,7 +156,7 @@ class TransaksiActivity : AppCompatActivity() {
             val total = daftarKeranjang.sumOf { it.subtotal }
             // Serialize data barang menjadi string sederhana
             val dataBarang = daftarKeranjang.joinToString("|") {
-                "${it.barcode}:${it.nama}:${it.qty}:${it.hargaSatuan}"
+                "${it.barcode}:${it.nama}:${it.qty}:${it.hargaSatuan}:${it.hargaAsli}"
             }
 
             CoroutineScope(Dispatchers.IO).launch {
@@ -222,9 +234,20 @@ class TransaksiActivity : AppCompatActivity() {
     }
 
     fun getDaftarBarangString(): String {
-        return daftarKeranjang.joinToString("\n") { 
-            "${it.nama.padEnd(15)} ${it.qty}x${it.hargaSatuan} = ${it.subtotal}"
+        val sb = StringBuilder()
+        daftarKeranjang.forEach { 
+            val diskonPerItem = it.hargaAsli - it.hargaSatuan
+            sb.append("${it.nama.padEnd(20)} x${it.qty}\n")
+            if (diskonPerItem > 0) {
+                sb.append("  Harga Normal: Rp ${it.hargaAsli}\n")
+                sb.append("  Diskon Promo: -Rp ${diskonPerItem * it.qty}\n")
+            } else {
+                sb.append("  Harga: Rp ${it.hargaSatuan}\n")
+            }
+            sb.append("  Subtotal: Rp ${it.subtotal}\n")
+            sb.append("--------------------------------\n")
         }
+        return sb.toString()
     }
 
     // =========================================================================

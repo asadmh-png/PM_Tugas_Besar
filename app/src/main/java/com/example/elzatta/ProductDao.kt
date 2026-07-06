@@ -30,7 +30,7 @@ interface ProductDao {
 
     @androidx.room.Transaction
     suspend fun updatePromoSimulation() {
-        setPromoPrice("8881", 12000)
+        setPromoPrice("8881", 30000)
         setPromoPrice("8882", 10000)
     }
 }
