@@ -31,16 +31,11 @@ class BukaKasirActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, daftarMesin)
         actvMesinKasir.setAdapter(adapter)
 
-        // Simulasi penambahan user dan product jika belum ada (hanya untuk testing)
+        // Simulasi penambahan user jika belum ada (hanya untuk testing)
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(this@BukaKasirActivity)
             db.userDao().insertUser(User("K001", "Ahmad Kasir", "Kasir"))
             db.userDao().insertUser(User("K002", "Siti Kasir", "Kasir"))
-            
-            // Dummy Products
-            db.productDao().insertProduct(Product("8881", "Tunik Elzatta Pink", 150000, 10))
-            db.productDao().insertProduct(Product("8882", "Scarf Motif Bunga", 75000, 20))
-            db.productDao().insertProduct(Product("8883", "Bergo Instan Hitam", 85000, 15))
         }
 
         btnBukaKasir.setOnClickListener {

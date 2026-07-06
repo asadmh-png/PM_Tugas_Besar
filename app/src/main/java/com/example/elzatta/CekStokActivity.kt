@@ -11,20 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
-
-data class ProdukStok(
-    val nama: String,
-    val barcode: String,
-    val harga: Int,
-    val stok: Int
-)
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CekStokActivity : AppCompatActivity() {
 
     private lateinit var rvProdukStok: RecyclerView
     private lateinit var adapter: ProdukStokAdapter
-    private val listProduk = mutableListOf<ProdukStok>()
-    private val listFilter = mutableListOf<ProdukStok>()
+    private val listProduk = mutableListOf<Product>()
+    private val listFilter = mutableListOf<Product>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,21 +35,11 @@ class CekStokActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // Dummy Data
-        listProduk.add(ProdukStok("Tunik Elzatta Pink", "899123456001", 150000, 12))
-        listProduk.add(ProdukStok("Scarf Motif Bunga", "899123456002", 75000, 45))
-        listProduk.add(ProdukStok("Bergo Instan Hitam", "899123456003", 85000, 20))
-        listProduk.add(ProdukStok("Gamis Elzatta Navy", "899123456004", 250000, 5))
-        listProduk.add(ProdukStok("Jilbab Segi Empat Polos", "899123456005", 45000, 60))
-        listProduk.add(ProdukStok("Mukena Elzatta Putih", "899123456006", 350000, 8))
-        listProduk.add(ProdukStok("Ciput Ninja", "899123456007", 25000, 100))
-        listProduk.add(ProdukStok("Outer Long Vest Gray", "899123456008", 185000, 15))
-
-        listFilter.addAll(listProduk)
-
         adapter = ProdukStokAdapter(listFilter)
         rvProdukStok.layoutManager = LinearLayoutManager(this)
         rvProdukStok.adapter = adapter
+
+        loadDataFromDb()
 
         // Logic Pencarian
         etBarcodeCek.addTextChangedListener(object : TextWatcher {
@@ -62,6 +49,21 @@ class CekStokActivity : AppCompatActivity() {
             }
             override fun afterTextChanged(s: Editable?) {}
         })
+    }
+
+    private fun loadDataFromDb() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = AppDatabase.getDatabase(this@CekStokActivity)
+            val products = db.productDao().getAllProducts()
+            
+            withContext(Dispatchers.Main) {
+                listProduk.clear()
+                listProduk.addAll(products)
+                listFilter.clear()
+                listFilter.addAll(products)
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun filter(text: String) {
@@ -79,7 +81,7 @@ class CekStokActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
-    class ProdukStokAdapter(private val list: List<ProdukStok>) :
+    class ProdukStokAdapter(private val list: List<Product>) :
         RecyclerView.Adapter<ProdukStokAdapter.ViewHolder>() {
 
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -102,7 +104,6 @@ class CekStokActivity : AppCompatActivity() {
             holder.tvHarga.text = "Rp ${item.harga}"
             holder.tvStok.text = item.stok.toString()
             
-            // Warna stok sedikit merah jika menipis (dummy logic)
             if (item.stok < 10) {
                 holder.tvStok.setTextColor(android.graphics.Color.RED)
             } else {
