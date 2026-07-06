@@ -5,11 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [KasirSession::class, User::class, Product::class], version = 3)
+@Database(entities = [KasirSession::class, User::class, Product::class, PendingOrder::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun kasirDao(): KasirDao
     abstract fun userDao(): UserDao
     abstract fun productDao(): ProductDao
+    abstract fun pendingOrderDao(): PendingOrderDao
 
     companion object {
         @Volatile

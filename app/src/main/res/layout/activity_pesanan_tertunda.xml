@@ -21,6 +21,16 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <TextView
+            android:id="@+id/tvEmptyState"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Tidak ada pesanan tertunda"
+            android:textSize="16sp"
+            android:textColor="#757575"
+            android:visibility="gone"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPesananTertunda"
             android:layout_width="match_parent"

@@ -31,7 +31,30 @@ class TransaksiActivity : AppCompatActivity() {
 
     // Tambahkan fungsi ini di dalam kelas TransaksiActivity
     private fun loadDataTertunda(id: String) {
-        // ... (sisanya tetap atau sesuaikan nanti)
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = AppDatabase.getDatabase(this@TransaksiActivity)
+            val pendingOrder = db.pendingOrderDao().getPendingOrderById(id.toInt())
+
+            pendingOrder?.let { order ->
+                withContext(Dispatchers.Main) {
+                    daftarKeranjang.clear()
+                    // Deserialize string ke object Barang
+                    order.daftarBarang.split("|").forEach { stringBarang ->
+                        val part = stringBarang.split(":")
+                        if (part.size == 4) {
+                            daftarKeranjang.add(Barang(part[0], part[1], part[2].toInt(), part[3].toInt()))
+                        }
+                    }
+                    adapter.notifyDataSetChanged()
+                    hitungTotalBayar()
+
+                    // Hapus dari daftar tertunda karena sudah diproses kembali
+                    CoroutineScope(Dispatchers.IO).launch {
+                        db.pendingOrderDao().deletePendingOrder(order)
+                    }
+                }
+            }
+        }
     }
 
     private fun hitungTotalBayar() {
@@ -112,11 +135,31 @@ class TransaksiActivity : AppCompatActivity() {
         }
 
         btnTunda.setOnClickListener {
-            Toast.makeText(this, "Transaksi disimpan sementara", Toast.LENGTH_SHORT).show()
-            // Logika membersihkan layar jika ditunda
-            daftarKeranjang.clear()
-            adapter.notifyDataSetChanged()
-            tvTotalBayar.text = "Rp 0"
+            if (daftarKeranjang.isEmpty()) {
+                Toast.makeText(this, "Keranjang kosong!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val total = daftarKeranjang.sumOf { it.subtotal }
+            // Serialize data barang menjadi string sederhana
+            val dataBarang = daftarKeranjang.joinToString("|") {
+                "${it.barcode}:${it.nama}:${it.qty}:${it.hargaSatuan}"
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val db = AppDatabase.getDatabase(this@TransaksiActivity)
+                db.pendingOrderDao().insertPendingOrder(
+                    PendingOrder(totalHarga = total, daftarBarang = dataBarang)
+                )
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@TransaksiActivity, "Pesanan ditunda", Toast.LENGTH_SHORT).show()
+                    daftarKeranjang.clear()
+                    adapter.notifyDataSetChanged()
+                    val tvTotalBayar = findViewById<TextView>(R.id.tvTotalBayar)
+                    tvTotalBayar.text = "Rp 0"
+                }
+            }
         }
 
         btnAksesTertunda.setOnClickListener {
