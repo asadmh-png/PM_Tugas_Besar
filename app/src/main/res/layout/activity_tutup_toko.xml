@@ -46,7 +46,7 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.App.TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Input Total Uang Tunai di Laci (Fisik)"
@@ -54,6 +54,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etUangFisik"
+                style="@style/Widget.App.TextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"/>
@@ -95,7 +96,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilCatatan"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.App.TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Catatan / Komentar (Opsional)"
@@ -104,6 +105,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCatatan"
+                style="@style/Widget.App.TextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
