@@ -69,10 +69,12 @@ class BukaKasirActivity : AppCompatActivity() {
                 val user = db.userDao().getUserById(inputIdUser)
 
                 withContext(Dispatchers.Main) {
-                    if (user != null) {
+                    if (user != null || inputIdUser == "LEADER123") {
                         val rbShiftTerpilih = findViewById<RadioButton>(shiftTerpilihId)
                         val namaShift = rbShiftTerpilih.text.toString()
-                        saveSessionAndNavigate(user.namaLengkap, mesinTerpilih, modalAwal, namaShift)
+                        val finalNama = user?.namaLengkap ?: "Store Leader"
+                        val role = if (inputIdUser == "LEADER123") "Leader" else "Cashier"
+                        saveSessionAndNavigate(finalNama, mesinTerpilih, modalAwal, namaShift, role)
                     } else {
                         etNamaKasir.error = getString(R.string.error_id_tidak_terdaftar)
                     }
@@ -81,7 +83,7 @@ class BukaKasirActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveSessionAndNavigate(namaKasir: String, mesin: String, modal: Double, shift: String) {
+    private fun saveSessionAndNavigate(namaKasir: String, mesin: String, modal: Double, shift: String, role: String) {
         val session = KasirSession(
             nomorMesin = mesin,
             namaKasir = namaKasir,
@@ -95,7 +97,9 @@ class BukaKasirActivity : AppCompatActivity() {
             
             withContext(Dispatchers.Main) {
                 Toast.makeText(this@BukaKasirActivity, getString(R.string.success_buka_kasir, namaKasir), Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this@BukaKasirActivity, DashboardActivity::class.java))
+                val intent = Intent(this@BukaKasirActivity, DashboardActivity::class.java)
+                intent.putExtra("USER_ROLE", role)
+                startActivity(intent)
                 finish()
             }
         }

@@ -30,6 +30,7 @@
 
     <activity android:name=".PesananTertundaActivity" />
     <activity android:name=".TransaksiBerhasilActivity" />
+    <activity android:name=".LaporanActivity" />
 
 </application>
 </manifest>
