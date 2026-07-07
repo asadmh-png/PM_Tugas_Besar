@@ -15,6 +15,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TutupTokoActivity : AppCompatActivity() {
 
@@ -24,7 +26,6 @@ class TutupTokoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tutup_toko)
 
-        // Kenalkan UI
         val tvTotalSistem = findViewById<TextView>(R.id.tvTotalSistem)
         val etUangFisik = findViewById<TextInputEditText>(R.id.etUangFisik)
         val btnHitungSelisih = findViewById<MaterialButton>(R.id.btnHitungSelisih)
@@ -39,7 +40,7 @@ class TutupTokoActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // Ambil data riil dari database
+        // Ambil data pendapatan shift aktif
         CoroutineScope(Dispatchers.Main).launch {
             val db = AppDatabase.getDatabase(this@TutupTokoActivity)
             val total = withContext(Dispatchers.IO) {
@@ -49,51 +50,65 @@ class TutupTokoActivity : AppCompatActivity() {
             tvTotalSistem.text = "Rp $totalSistem"
         }
 
-        // Logika saat tombol Hitung ditekan
         btnHitungSelisih.setOnClickListener {
             val inputFisikStr = etUangFisik.text.toString()
-
             if (inputFisikStr.isEmpty()) {
-                etUangFisik.error = "Masukkan jumlah uang fisik di laci!"
+                etUangFisik.error = "Masukkan jumlah uang fisik!"
                 return@setOnClickListener
             }
 
             val uangFisik = inputFisikStr.toInt()
             val selisih = uangFisik - totalSistem
 
-            // Menampilkan layout hasil dan field catatan
             layoutHasilSelisih.visibility = View.VISIBLE
             tilCatatan.visibility = View.VISIBLE
-            btnTutupToko.isEnabled = true // Hidupkan tombol Tutup Toko
+            btnTutupToko.isEnabled = true
 
-            // Menentukan status balance / minus / lebih
             if (selisih == 0) {
                 tvStatusSelisih.text = "Sesuai (Balance)"
-                tvStatusSelisih.setTextColor(Color.parseColor("#388E3C")) // Hijau
+                tvStatusSelisih.setTextColor(Color.parseColor("#388E3C"))
             } else if (selisih < 0) {
                 tvStatusSelisih.text = "Minus Rp ${selisih * -1}"
-                tvStatusSelisih.setTextColor(Color.parseColor("#D32F2F")) // Merah
+                tvStatusSelisih.setTextColor(Color.parseColor("#D32F2F"))
             } else {
                 tvStatusSelisih.text = "Lebih Rp $selisih"
-                tvStatusSelisih.setTextColor(Color.parseColor("#F57C00")) // Orange
+                tvStatusSelisih.setTextColor(Color.parseColor("#F57C00"))
             }
         }
 
-        // Logika saat tombol Tutup Toko ditekan
         btnTutupToko.setOnClickListener {
             val catatan = etCatatan.text.toString()
             val inputFisik = etUangFisik.text.toString().toIntOrNull() ?: 0
             val selisih = inputFisik - totalSistem
-            val statusSelisih = if (selisih == 0) "Sesuai" else if (selisih < 0) "Minus Rp ${selisih * -1}" else "Lebih Rp $selisih"
 
-            val pesan = "Shift Ditutup. Selisih: $statusSelisih. Catatan: ${if (catatan.isEmpty()) "-" else catatan}"
-            Toast.makeText(this, pesan, Toast.LENGTH_LONG).show()
+            // EKSEKUSI TUTUP SHIFT
+            CoroutineScope(Dispatchers.IO).launch {
+                val db = AppDatabase.getDatabase(this@TutupTokoActivity)
 
-            // Kembali ke Dashboard dan bersihkan activity stack
-            val intent = Intent(this, DashboardActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
+                // 1. Simpan Record ke ShiftSession
+                val currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+                val shift = ShiftSession(
+                    waktuTutup = currentTime,
+                    totalSistem = totalSistem,
+                    totalFisik = inputFisik,
+                    selisih = selisih,
+                    catatan = if (catatan.isEmpty()) "-" else catatan
+                )
+                db.shiftSessionDao().insertShift(shift)
+
+                // 2. Kunci transaksi agar saldo sistem kembali ke 0
+                db.transactionDao().closeAllCurrentTransactions()
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@TutupTokoActivity, "Shift Berhasil Ditutup!", Toast.LENGTH_SHORT).show()
+
+                    // 3. Logout dan Redirect ke BukaKasirActivity
+                    val intent = Intent(this@TutupTokoActivity, BukaKasirActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                }
+            }
         }
     }
 }

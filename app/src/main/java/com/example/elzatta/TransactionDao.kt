@@ -28,6 +28,9 @@ interface TransactionDao {
         insertTransactionItems(items)
     }
 
-    @Query("SELECT SUM(totalHarga) FROM sale_transactions WHERE statusTransaksi = 'Lunas'")
+    @Query("SELECT SUM(totalHarga) FROM sale_transactions WHERE statusTransaksi = 'Lunas' AND is_closed = 0")
     suspend fun getTotalPendapatanShift(): Int?
+
+    @Query("UPDATE sale_transactions SET is_closed = 1 WHERE is_closed = 0")
+    suspend fun closeAllCurrentTransactions()
 }

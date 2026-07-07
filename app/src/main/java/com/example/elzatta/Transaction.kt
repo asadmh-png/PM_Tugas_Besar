@@ -3,6 +3,7 @@ package com.example.elzatta
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.ForeignKey
+import androidx.room.ColumnInfo
 
 @Entity(tableName = "sale_transactions")
 data class SaleTransaction(
@@ -11,7 +12,8 @@ data class SaleTransaction(
     val tanggal: String,
     val totalHarga: Int,
     var statusTransaksi: String, // "Lunas" atau "Diretur"
-    val metodeBayar: String
+    val metodeBayar: String,
+    @ColumnInfo(name = "is_closed") var isClosed: Boolean = false
 )
 
 @Entity(
