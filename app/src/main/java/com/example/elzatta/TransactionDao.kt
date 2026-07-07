@@ -27,4 +27,7 @@ interface TransactionDao {
         insertTransaction(tx)
         insertTransactionItems(items)
     }
+
+    @Query("SELECT SUM(totalHarga) FROM sale_transactions WHERE statusTransaksi = 'Lunas'")
+    suspend fun getTotalPendapatanShift(): Int?
 }
