@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Layout untuk Satu Baris Item Produk pada Daftar Cek Stok -->
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,6 +17,7 @@
         android:padding="16dp"
         android:gravity="center_vertical">
 
+        <!-- Bagian Informasi Produk: Nama, Barcode, dan Harga -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,6 +51,7 @@
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
+        <!-- Bagian Jumlah Stok: Menampilkan angka sisa stok barang -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

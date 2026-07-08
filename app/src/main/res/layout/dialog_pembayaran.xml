@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Dialog untuk Memilih dan Memproses Metode Pembayaran Transaksi -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -10,6 +11,7 @@
         android:orientation="vertical"
         android:padding="24dp">
 
+        <!-- Judul Dialog -->
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
@@ -21,7 +23,7 @@
             android:layout_marginBottom="24dp"
             android:textColor="#333333"/>
 
-        <!-- Menu Utama Pembayaran -->
+        <!-- Menu Utama: Pilih antara Tunai atau Non-Tunai -->
         <LinearLayout
             android:id="@+id/layoutPilihanUtama"
             android:layout_width="match_parent"
@@ -44,7 +46,7 @@
                 android:layout_marginBottom="12dp"/>
         </LinearLayout>
 
-        <!-- Section Cash -->
+        <!-- Bagian Pembayaran Tunai (Cash) -->
         <LinearLayout
             android:id="@+id/sectionCash"
             android:layout_width="match_parent"
@@ -63,6 +65,7 @@
                 android:textColor="#D81B60"
                 android:gravity="center"/>
 
+            <!-- Input jumlah uang yang diterima dari pelanggan -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.App.TextInputLayout"
                 android:layout_width="match_parent"
@@ -78,6 +81,7 @@
                     android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Menampilkan hitungan kembalian secara otomatis -->
             <TextView
                 android:id="@+id/tvKembalian"
                 android:layout_width="match_parent"
@@ -93,7 +97,7 @@
                 android:text="PROSES BAYAR TUNAI"/>
         </LinearLayout>
 
-        <!-- Pilihan Metode Non-Cash -->
+        <!-- Daftar Pilihan Metode Non-Cash -->
         <LinearLayout
             android:id="@+id/layoutMetodeNonCash"
             android:layout_width="match_parent"
@@ -129,7 +133,7 @@
                 android:textSize="16sp"/>
         </LinearLayout>
 
-        <!-- Section QRIS -->
+        <!-- Alur Pembayaran QRIS (Statik/Dinamis) -->
         <LinearLayout
             android:id="@+id/sectionQRIS"
             android:layout_width="match_parent"
@@ -138,6 +142,7 @@
             android:gravity="center"
             android:visibility="gone">
 
+            <!-- Menampilkan Gambar QR Code untuk discan pelanggan -->
             <ImageView
                 android:id="@+id/ivQRCode"
                 android:layout_width="150dp"
@@ -154,7 +159,7 @@
                 android:text="CEK STATUS PEMBAYARAN"/>
         </LinearLayout>
 
-        <!-- Section EDC -->
+        <!-- Alur Pembayaran menggunakan Mesin EDC -->
         <LinearLayout
             android:id="@+id/sectionEDC"
             android:layout_width="match_parent"
@@ -162,6 +167,7 @@
             android:orientation="vertical"
             android:visibility="gone">
 
+            <!-- Input Nomor Referensi atau Approval Code dari mesin EDC -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.App.TextInputLayout"
                 android:layout_width="match_parent"
@@ -184,7 +190,7 @@
                 android:text="PROSES PEMBAYARAN"/>
         </LinearLayout>
 
-        <!-- Section E-Wallet -->
+        <!-- Alur Pembayaran via E-Wallet (Push Notification) -->
         <LinearLayout
             android:id="@+id/sectionEWallet"
             android:layout_width="match_parent"
@@ -192,6 +198,7 @@
             android:orientation="vertical"
             android:visibility="gone">
 
+            <!-- Input nomor HP pelanggan yang terdaftar di E-Wallet -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.App.TextInputLayout"
                 android:layout_width="match_parent"
@@ -222,6 +229,7 @@
                 android:text="KIRIM TAGIHAN"/>
         </LinearLayout>
 
+        <!-- Tombol untuk kembali ke pilihan metode pembayaran -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBackToMetode"
             style="@style/Widget.MaterialComponents.Button.TextButton"

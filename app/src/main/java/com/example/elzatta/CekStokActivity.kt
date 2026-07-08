@@ -16,11 +16,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * Activity Cek Stok: Fitur untuk melihat daftar produk dan sisa stok di gudang/toko.
+ * Mendukung pencarian secara real-time berdasarkan nama atau barcode.
+ */
 class CekStokActivity : AppCompatActivity() {
 
     private lateinit var rvProdukStok: RecyclerView
     private lateinit var adapter: ProdukStokAdapter
+    // Master data produk dari DB
     private val listProduk = mutableListOf<Product>()
+    // Data yang ditampilkan ke user (setelah difilter)
     private val listFilter = mutableListOf<Product>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,18 +36,21 @@ class CekStokActivity : AppCompatActivity() {
         val etBarcodeCek = findViewById<TextInputEditText>(R.id.etBarcodeCek)
         rvProdukStok = findViewById(R.id.rvProdukStok)
 
+        // Setup Toolbar dan tombol kembali
         val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbarCekStok)
         toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        // Setup RecyclerView untuk menampilkan daftar produk
         adapter = ProdukStokAdapter(listFilter)
         rvProdukStok.layoutManager = LinearLayoutManager(this)
         rvProdukStok.adapter = adapter
 
+        // Tarik data awal dari Database Lokal
         loadDataFromDb()
 
-        // Logic Pencarian
+        // Logika Pencarian: Berjalan setiap kali user mengetik di kolom pencarian
         etBarcodeCek.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -51,6 +60,9 @@ class CekStokActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * Mengambil semua data produk dari database menggunakan Coroutine agar tidak lag (Background Thread)
+     */
     private fun loadDataFromDb() {
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(this@CekStokActivity)
@@ -66,6 +78,9 @@ class CekStokActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Melakukan filter data berdasarkan query teks yang dimasukkan user
+     */
     private fun filter(text: String) {
         listFilter.clear()
         if (text.isEmpty()) {
@@ -73,6 +88,7 @@ class CekStokActivity : AppCompatActivity() {
         } else {
             val query = text.lowercase()
             for (item in listProduk) {
+                // Cari berdasarkan Nama atau Barcode
                 if (item.nama.lowercase().contains(query) || item.barcode.contains(query)) {
                     listFilter.add(item)
                 }
@@ -81,6 +97,9 @@ class CekStokActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
+    /**
+     * Adapter untuk menampilkan list item produk stok
+     */
     class ProdukStokAdapter(private val list: List<Product>) :
         RecyclerView.Adapter<ProdukStokAdapter.ViewHolder>() {
 
@@ -104,6 +123,7 @@ class CekStokActivity : AppCompatActivity() {
             holder.tvHarga.text = "Rp ${item.harga}"
             holder.tvStok.text = item.stok.toString()
             
+            // Visual Warning: Ubah warna stok jadi merah jika jumlahnya sedikit (Warning Stok Tipis)
             if (item.stok < 10) {
                 holder.tvStok.setTextColor(android.graphics.Color.RED)
             } else {

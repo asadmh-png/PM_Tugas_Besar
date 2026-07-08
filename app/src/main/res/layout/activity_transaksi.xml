@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Root Layout: Menggunakan LinearLayout vertikal untuk menyusun elemen secara berurutan dari atas ke bawah -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -6,6 +7,7 @@
     android:orientation="vertical"
     android:background="#F0F2F5">
 
+    <!-- Header: Toolbar dengan judul "Transaksi Penjualan" dan tombol kembali -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarTransaksi"
         android:layout_width="match_parent"
@@ -15,12 +17,14 @@
         app:title="Transaksi Penjualan"
         app:titleTextColor="#333333" />
 
+    <!-- Kontainer Konten: Padding 16dp agar elemen tidak menempel ke pinggir layar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- RecyclerView: Daftar barang yang dibeli (Keranjang Belanja) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvKeranjang"
             android:layout_width="match_parent"
@@ -28,6 +32,7 @@
             android:layout_weight="1"
             android:layout_marginBottom="16dp" />
 
+        <!-- Input Barcode: Tempat kasir melakukan scan atau ketik kode barang -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.App.TextInputLayout"
             android:layout_width="match_parent"
@@ -44,6 +49,7 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Baris Total: Menampilkan ringkasan total harga yang harus dibayar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,12 +74,14 @@
                 android:textStyle="bold"/>
         </LinearLayout>
 
+        <!-- Baris Tombol Aksi: Tunda Transaksi atau Lanjut Pembayaran -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="8dp">
 
+            <!-- Tombol Tunda: Menyimpan pesanan sementara -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnTunda"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -83,6 +91,7 @@
                 android:text="TUNDA"
                 android:layout_marginEnd="8dp"/>
 
+            <!-- Tombol Bayar: Membuka dialog pembayaran -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnBayar"
                 android:layout_width="0dp"
@@ -92,6 +101,7 @@
                 android:layout_marginStart="8dp"/>
         </LinearLayout>
 
+        <!-- Tombol Tambahan: Untuk melihat daftar pesanan yang ditunda sebelumnya -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAksesTertunda"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"

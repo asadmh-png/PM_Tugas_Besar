@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Layout untuk Fitur Update Promo dan Sinkronisasi Data dari Server -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -6,6 +7,7 @@
     android:orientation="vertical"
     android:background="#F0F2F5">
 
+    <!-- Header dengan Toolbar untuk navigasi kembali -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarUpdatePromo"
         android:layout_width="match_parent"
@@ -15,6 +17,7 @@
         app:title="Update Promo"
         app:titleTextColor="#333333" />
 
+    <!-- Area Utama Sinkronisasi -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,6 +25,7 @@
         android:padding="24dp"
         android:gravity="center">
 
+        <!-- Judul Fitur -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,6 +35,7 @@
             android:layout_marginBottom="16dp"
             android:textAlignment="center"/>
 
+        <!-- Menampilkan Kapan Terakhir Kali Data Diperbarui -->
         <TextView
             android:id="@+id/tvLastSync"
             android:layout_width="wrap_content"
@@ -39,6 +44,7 @@
             android:textSize="14sp"
             android:layout_marginBottom="48dp"/>
 
+        <!-- Tombol untuk memicu proses penarikan data promo terbaru -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSyncPromo"
             android:layout_width="match_parent"
@@ -47,6 +53,7 @@
             android:textSize="16sp"
             android:layout_marginBottom="16dp"/>
 
+        <!-- Indikator loading saat proses sinkronisasi sedang berjalan -->
         <ProgressBar
             android:id="@+id/pbLoadingPromo"
             android:layout_width="wrap_content"

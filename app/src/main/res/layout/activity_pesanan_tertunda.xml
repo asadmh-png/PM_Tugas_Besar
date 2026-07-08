@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Layout untuk Menampilkan Daftar Pesanan yang Ditunda/Held -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -6,6 +7,7 @@
     android:orientation="vertical"
     android:background="#F0F2F5">
 
+    <!-- Header dengan Toolbar untuk navigasi kembali -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarPesananTertunda"
         android:layout_width="match_parent"
@@ -15,12 +17,14 @@
         app:title="Pesanan Tertunda"
         app:titleTextColor="#333333" />
 
+    <!-- Konten Daftar Pesanan -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Pesan yang muncul jika tidak ada data pesanan yang tertunda -->
         <TextView
             android:id="@+id/tvEmptyState"
             android:layout_width="match_parent"
@@ -31,6 +35,7 @@
             android:textColor="#757575"
             android:visibility="gone"/>
 
+        <!-- RecyclerView untuk menampilkan list pesanan yang bisa dipanggil kembali -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPesananTertunda"
             android:layout_width="match_parent"

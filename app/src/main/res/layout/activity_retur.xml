@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Root Layout: Menggunakan LinearLayout vertikal sebagai wadah utama halaman Retur -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -6,6 +7,7 @@
     android:orientation="vertical"
     android:background="#F0F2F5">
 
+    <!-- Header: Toolbar untuk judul "Retur Penjualan" dan tombol kembali -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarRetur"
         android:layout_width="match_parent"
@@ -15,12 +17,14 @@
         app:title="Retur Penjualan"
         app:titleTextColor="#333333" />
 
+    <!-- Kontainer Konten: Area untuk input dan hasil pencarian nota -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="24dp">
 
+        <!-- Input Nomor Nota: Tempat mengetik nomor struk yang akan diretur -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.App.TextInputLayout"
             android:layout_width="match_parent"
@@ -36,6 +40,7 @@
                 android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Tombol Cari: Untuk memvalidasi nomor nota ke sistem -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCariNota"
             android:layout_width="match_parent"
@@ -44,12 +49,14 @@
             android:textSize="16sp"
             android:layout_marginBottom="24dp"/>
 
+        <!-- Garis Pemisah (Divider) -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#CCCCCC"
             android:layout_marginBottom="16dp"/>
 
+        <!-- Layout Hasil: Bagian ini akan muncul otomatis jika nota ditemukan (Visibility GONE di awal) -->
         <LinearLayout
             android:id="@+id/layoutHasilRetur"
             android:layout_width="match_parent"
@@ -57,6 +64,7 @@
             android:orientation="vertical"
             android:visibility="gone">
 
+            <!-- Label Status Ditemukan -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,6 +73,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
 
+            <!-- Area Informasi Detail Barang yang ada di Nota tersebut -->
             <TextView
                 android:id="@+id/tvDetailNota"
                 android:layout_width="match_parent"
@@ -72,6 +81,7 @@
                 android:text="Detail Nota..."
                 android:layout_marginBottom="8dp"/>
 
+            <!-- ScrollView & Container: Tempat menampilkan daftar barang secara dinamis -->
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -84,6 +94,7 @@
                     android:orientation="vertical"/>
             </ScrollView>
 
+            <!-- Input Alasan: Alasan mengapa barang dikembalikan (misal: cacat) -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.App.TextInputLayout"
                 android:layout_width="match_parent"
@@ -99,6 +110,7 @@
                     android:inputType="textMultiLine"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Tombol Eksekusi: Proses akhir untuk update stok dan keuangan -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnProsesRetur"
                 android:layout_width="match_parent"

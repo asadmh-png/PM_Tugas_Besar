@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Root Layout: Menggunakan LinearLayout vertikal untuk menyusun elemen dari atas ke bawah -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -6,6 +7,7 @@
     android:orientation="vertical"
     android:background="#F0F2F5">
 
+    <!-- Header: Toolbar dengan judul Mutasi Barang dan tombol navigasi kembali -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarMutasi"
         android:layout_width="match_parent"
@@ -15,6 +17,7 @@
         app:title="Mutasi Barang (TO / TI)"
         app:titleTextColor="#333333" />
 
+    <!-- ScrollView: Memastikan form tetap bisa diakses jika layar HP penuh -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,6 +28,7 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+            <!-- Label Petunjuk: Memberitahu user untuk memilih jenis mutasi -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,6 +36,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
 
+            <!-- Pilihan Jenis Mutasi: Kirim Barang (Transfer Out) atau Terima Barang (Transfer In) -->
             <RadioGroup
                 android:id="@+id/rgJenisMutasi"
                 android:layout_width="match_parent"
@@ -54,7 +59,7 @@
                     android:layout_weight="1"/>
             </RadioGroup>
 
-            <!-- Form Dinamis -->
+            <!-- Form Dinamis: Area ini akan muncul setelah salah satu RadioButton dipilih -->
             <LinearLayout
                 android:id="@+id/layoutFormMutasi"
                 android:layout_width="match_parent"
@@ -62,7 +67,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <!-- Field khusus TO -->
+                <!-- Dropdown Toko Tujuan: Hanya muncul jika memilih 'Kirim Barang' -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilTokoTujuan"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -81,7 +86,7 @@
                         android:inputType="none"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Field khusus TI -->
+                <!-- Input Nomor Resi: Hanya muncul jika memilih 'Terima Barang' -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilNomorResi"
                     style="@style/Widget.App.TextInputLayout"
@@ -98,7 +103,7 @@
                         android:inputType="text"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Input Umum (Barcode & Qty) -->
+                <!-- Input Barcode: Untuk mendata barang apa yang dimutasi -->
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.App.TextInputLayout"
                     android:layout_width="match_parent"
@@ -113,6 +118,7 @@
                         android:inputType="text"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Input Jumlah: Berapa banyak barang yang dipindahkan -->
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.App.TextInputLayout"
                     android:layout_width="match_parent"
@@ -127,6 +133,7 @@
                         android:inputType="number"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Tombol Eksekusi: Untuk memproses data mutasi ke server -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnProsesMutasi"
                     android:layout_width="match_parent"

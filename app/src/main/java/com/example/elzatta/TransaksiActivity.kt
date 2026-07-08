@@ -18,7 +18,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-// 1. Kita buat struktur data sederhana untuk Barang
+/**
+ * Model Data untuk Barang yang ada di dalam Keranjang Belanja
+ */
 data class Barang(
     val barcode: String,
     val nama: String,
@@ -26,17 +28,25 @@ data class Barang(
     val hargaSatuan: Int,
     val hargaAsli: Int = hargaSatuan
 ) {
+    // Menghitung subtotal otomatis
     val subtotal get() = qty * hargaSatuan
+    // Menghitung total diskon jika ada harga promo
     val totalDiskon get() = (hargaAsli - hargaSatuan) * qty
 }
 
+/**
+ * Activity Transaksi: Fitur Utama Kasir untuk melakukan penjualan.
+ * Mendukung Scan Barcode, Tunda Pesanan, dan Pembayaran.
+ */
 class TransaksiActivity : AppCompatActivity() {
 
-    // Siapkan wadah untuk daftar belanjaan
+    // List untuk menyimpan daftar barang yang sedang dibeli
     private val daftarKeranjang = mutableListOf<Barang>()
     private lateinit var adapter: KeranjangAdapter
 
-    // Tambahkan fungsi ini di dalam kelas TransaksiActivity
+    /**
+     * Mengambil data pesanan yang sebelumnya ditunda dari database lokal
+     */
     private fun loadDataTertunda(id: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(this@TransaksiActivity)
@@ -45,7 +55,7 @@ class TransaksiActivity : AppCompatActivity() {
             pendingOrder?.let { order ->
                 withContext(Dispatchers.Main) {
                     daftarKeranjang.clear()
-                    // Deserialize string ke object Barang
+                    // Mengubah string data barang kembali menjadi object (Deserialization)
                     order.daftarBarang.split("|").forEach { stringBarang ->
                         val part = stringBarang.split(":")
                         if (part.size >= 4) {
@@ -60,7 +70,7 @@ class TransaksiActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                     hitungTotalBayar()
 
-                    // Hapus dari daftar tertunda karena sudah diproses kembali
+                    // Hapus dari daftar tertunda karena sudah diproses kembali (Recall)
                     CoroutineScope(Dispatchers.IO).launch {
                         db.pendingOrderDao().deletePendingOrder(order)
                     }
@@ -69,6 +79,9 @@ class TransaksiActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Fungsi untuk menghitung total belanjaan dan update ke UI
+     */
     private fun hitungTotalBayar() {
         var total = 0
         for (barang in daftarKeranjang) {
@@ -78,6 +91,9 @@ class TransaksiActivity : AppCompatActivity() {
         tvTotalBayar.text = "Rp $total"
     }
 
+    /**
+     * Mencari produk berdasarkan barcode dan menambahkannya ke keranjang
+     */
     private fun tambahBarangKeKeranjang(barcode: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(this@TransaksiActivity)
@@ -87,8 +103,10 @@ class TransaksiActivity : AppCompatActivity() {
                 if (product != null) {
                     val existingItem = daftarKeranjang.find { it.barcode == barcode }
                     if (existingItem != null) {
+                        // Jika barang sudah ada, cukup tambah jumlahnya (Qty)
                         existingItem.qty += 1
                     } else {
+                        // Jika barang baru, masukkan ke list dengan mengecek harga promo
                         val hargaFinal = if (product.hargaPromo > 0) product.hargaPromo else product.harga
                         daftarKeranjang.add(Barang(product.barcode, product.nama, 1, hargaFinal, product.harga))
                     }
@@ -106,7 +124,7 @@ class TransaksiActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaksi)
 
-        // Kenalkan UI ke Kotlin
+        // Inisialisasi UI
         val rvKeranjang = findViewById<RecyclerView>(R.id.rvKeranjang)
         val tvTotalBayar = findViewById<TextView>(R.id.tvTotalBayar)
         val etBarcode = findViewById<TextInputEditText>(R.id.etBarcode)
@@ -115,16 +133,18 @@ class TransaksiActivity : AppCompatActivity() {
         val btnAksesTertunda = findViewById<MaterialButton>(R.id.btnAksesTertunda)
         val idTertunda = intent.getStringExtra("ID_TRANSAKSI_TERTUNDA")
 
+        // Setup Toolbar & Tombol Kembali
         val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbarTransaksi)
         toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // 3. Setup RecyclerView
+        // Setup RecyclerView untuk daftar belanja
         adapter = KeranjangAdapter(daftarKeranjang)
         rvKeranjang.layoutManager = LinearLayoutManager(this)
         rvKeranjang.adapter = adapter
 
+        // Listener untuk Input Barcode (Merespon tombol Enter/Next pada keyboard/scanner)
         etBarcode.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
                 val barcode = etBarcode.text.toString()
@@ -137,7 +157,7 @@ class TransaksiActivity : AppCompatActivity() {
             }
         }
 
-        // 4. Logika Tombol
+        // Tombol untuk Membuka Dialog Pembayaran
         btnBayar.setOnClickListener {
             if (daftarKeranjang.isEmpty()) {
                 Toast.makeText(this, "Keranjang kosong!", Toast.LENGTH_SHORT).show()
@@ -147,6 +167,7 @@ class TransaksiActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "PembayaranDialog")
         }
 
+        // Tombol untuk Menunda Transaksi (Save for later)
         btnTunda.setOnClickListener {
             if (daftarKeranjang.isEmpty()) {
                 Toast.makeText(this, "Keranjang kosong!", Toast.LENGTH_SHORT).show()
@@ -154,7 +175,7 @@ class TransaksiActivity : AppCompatActivity() {
             }
 
             val total = daftarKeranjang.sumOf { it.subtotal }
-            // Serialize data barang menjadi string sederhana
+            // Serialisasi data keranjang menjadi string agar bisa disimpan di DB
             val dataBarang = daftarKeranjang.joinToString("|") {
                 "${it.barcode}:${it.nama}:${it.qty}:${it.hargaSatuan}:${it.hargaAsli}"
             }
@@ -174,17 +195,21 @@ class TransaksiActivity : AppCompatActivity() {
             }
         }
 
+        // Tombol untuk melihat daftar pesanan yang sedang ditunda
         btnAksesTertunda.setOnClickListener {
             val intent = Intent(this, PesananTertundaActivity::class.java)
             startActivity(intent)
         }
 
+        // Cek apakah activity dibuka karena ingin memanggil pesanan tertunda
         if (idTertunda != null) {
-            // Panggil fungsi untuk ambil data dari database lokal berdasarkan ID tersebut
             loadDataTertunda(idTertunda)
         }
     }
 
+    /**
+     * Fungsi Finalisasi Transaksi: Simpan ke Database, Update Stok, dan Bersihkan Keranjang.
+     */
     fun selesaikanTransaksi(metode: String): String {
         val nomorNota = "ELZ-${System.currentTimeMillis() % 1000000}"
         val total = getTotalBelanja()
@@ -194,7 +219,7 @@ class TransaksiActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(this@TransaksiActivity)
             
-            // 1. Simpan Header Transaksi
+            // 1. Simpan Header Transaksi (Metadata Transaksi)
             val transaction = SaleTransaction(
                 nomorNota = nomorNota,
                 tanggal = tanggal,
@@ -203,7 +228,7 @@ class TransaksiActivity : AppCompatActivity() {
                 metodeBayar = metode
             )
             
-            // 2. Simpan Item Transaksi & Update Stok
+            // 2. Simpan Detail Item Transaksi
             val items = copyKeranjang.map { 
                 TransactionItem(
                     nomorNota = nomorNota,
@@ -216,6 +241,7 @@ class TransaksiActivity : AppCompatActivity() {
             
             db.transactionDao().insertFullTransaction(transaction, items)
             
+            // 3. Update Stok di Inventory (Pengurangan Stok)
             copyKeranjang.forEach { barang ->
                 db.productDao().updateStok(barang.barcode, barang.qty)
             }
@@ -233,6 +259,9 @@ class TransaksiActivity : AppCompatActivity() {
         return daftarKeranjang.sumOf { it.subtotal }
     }
 
+    /**
+     * Memformat daftar belanja menjadi teks untuk dicetak pada struk
+     */
     fun getDaftarBarangString(): String {
         val sb = StringBuilder()
         daftarKeranjang.forEach { 
@@ -251,7 +280,7 @@ class TransaksiActivity : AppCompatActivity() {
     }
 
     // =========================================================================
-    // INNER CLASS: ADAPTER (Ini adalah "jembatan" antara data dan RecyclerView)
+    // INNER CLASS: ADAPTER (Jembatan antara data List Barang dan Tampilan List)
     // =========================================================================
     class KeranjangAdapter(private val listBarang: List<Barang>) : RecyclerView.Adapter<KeranjangAdapter.ViewHolder>() {
 

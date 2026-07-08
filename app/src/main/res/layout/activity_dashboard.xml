@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Root Layout: ScrollView memungkinkan pengguna untuk menggeser layar jika konten melebihi tinggi layar HP -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -6,12 +7,14 @@
     android:background="#F0F2F5"
     android:fillViewport="true">
 
+    <!-- Kontainer Utama: Menyusun elemen secara vertikal dengan padding 16dp -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Judul Dashboard: Menampilkan teks sapaan atau nama modul -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,12 +25,14 @@
             android:textSize="22sp"
             android:textStyle="bold" />
 
+        <!-- Menu Grid: Menyusun tombol menu dalam format kotak (grid) 2 kolom -->
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:alignmentMode="alignMargins"
             android:columnCount="2">
 
+            <!-- Menu Transaksi: Tombol untuk masuk ke halaman penjualan -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardTransaksi"
                 style="@style/Widget.MaterialComponents.CardView"
@@ -44,6 +49,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Menu Retur: Tombol untuk memproses pengembalian barang -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardRetur"
                 android:layout_width="0dp"
@@ -59,6 +65,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Menu Mutasi: Tombol untuk kirim/terima barang antar toko -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardMutasi"
                 android:layout_width="0dp"
@@ -74,6 +81,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Menu Cek Stok: Tombol untuk melihat sisa stok produk -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardCekStok"
                 android:layout_width="0dp"
@@ -89,6 +97,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Menu Update Promo: Sinkronisasi data promo terbaru dari server -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardUpdatePromo"
                 android:layout_width="0dp"
@@ -104,6 +113,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Menu Tutup Toko: Proses closing shift dan cetak laporan akhir -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardTutupToko"
                 android:layout_width="0dp"
@@ -122,6 +132,7 @@
 
         </GridLayout>
 
+        <!-- Tombol Laporan: Tombol tambahan yang hanya muncul untuk otorisasi tertentu -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLihatLaporan"
             android:layout_width="match_parent"
