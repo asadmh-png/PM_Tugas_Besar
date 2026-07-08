@@ -64,7 +64,5 @@ PM_Tugas_Besar/
 ├── app/                  # Folder source code
 ├── apk/                  # Build APK
 │   └── app-release.apk
-├── docs/                 # Dokumentasi
-│   └── Laporan_PMOB_ Kelompok 1.pdf
 └── README.md
 ```
