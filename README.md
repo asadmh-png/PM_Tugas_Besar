@@ -12,14 +12,10 @@ aplikasi ElZatta BPOS adalah perangkat lunak berbasis digital yang dirancang unt
 | 3 | Bonafisius Alvis Satriya | 24552011152 | Backend |
 
 ## Video Penjelasan
-<<<<<<< HEAD
 [Video Penjelasan ElZatta BPOS](https://youtu.be/rhCy1EqzPZ4)
 
 ## Laporan
 [Laporan Proyek ElZatta BPOS](https://drive.google.com/drive/folders/1zSzjzxurbGl6V7GJv5MvU30V2taemgZw?usp=drive_link)
-=======
-https://youtu.be/rhCy1EqzPZ4
->>>>>>> 1e3c4e6a57f1331a37c2d09bbf0768e25556107a
 
 ## Screenshot Aplikasi
 
