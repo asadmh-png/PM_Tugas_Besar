@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pilih Metode Pembayaran"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:textColor="#333333"/>
+
+        <!-- Menu Utama Pembayaran -->
+        <LinearLayout
+            android:id="@+id/layoutPilihanUtama"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCash"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:text="CASH (TUNAI)"
+                android:layout_marginBottom="12dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnNonCash"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:text="NON-CASH (QRIS/EDC/E-WALLET)"
+                android:layout_marginBottom="12dp"/>
+        </LinearLayout>
+
+        <!-- Section Cash -->
+        <LinearLayout
+            android:id="@+id/sectionCash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvTotalTagihanCash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total: Rp 0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:textColor="#D81B60"
+                android:gravity="center"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.App.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Uang Tunai Pelanggan"
+                android:layout_marginBottom="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUangCash"
+                    style="@style/Widget.App.TextInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvKembalian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kembalian: Rp 0"
+                android:layout_marginBottom="16dp"
+                android:gravity="end"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProsesCash"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="PROSES BAYAR TUNAI"/>
+        </LinearLayout>
+
+        <!-- Pilihan Metode Non-Cash -->
+        <LinearLayout
+            android:id="@+id/layoutMetodeNonCash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPilihQRIS"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• QRIS"
+                android:gravity="start|center_vertical"
+                android:textSize="16sp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPilihEDC"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• MESIN EDC"
+                android:gravity="start|center_vertical"
+                android:textSize="16sp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPilihEWallet"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• E-WALLET"
+                android:gravity="start|center_vertical"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- Section QRIS -->
+        <LinearLayout
+            android:id="@+id/sectionQRIS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/ivQRCode"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/qr_dummy"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="QR Code Pembayaran"
+                android:scaleType="fitCenter"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCekStatusQRIS"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="CEK STATUS PEMBAYARAN"/>
+        </LinearLayout>
+
+        <!-- Section EDC -->
+        <LinearLayout
+            android:id="@+id/sectionEDC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.App.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nomor Referensi (Approval Code)"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNoReferensi"
+                    style="@style/Widget.App.TextInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProsesEDC"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="PROSES PEMBAYARAN"/>
+        </LinearLayout>
+
+        <!-- Section E-Wallet -->
+        <LinearLayout
+            android:id="@+id/sectionEWallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.App.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nomor HP Pelanggan"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNoHPEwallet"
+                    style="@style/Widget.App.TextInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ProgressBar
+                android:id="@+id/pbEWallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnKirimTagihan"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="KIRIM TAGIHAN"/>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBackToMetode"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ganti Metode"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+</ScrollView>

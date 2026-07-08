@@ -1,0 +1,36 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="Elzatta BPOS"
+    android:theme="@style/Base.Theme.ElzattaBPOS">
+
+    <activity
+        android:name=".BukaKasirActivity"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+
+    <activity android:name=".DashboardActivity" />
+
+    <activity android:name=".TransaksiActivity" />
+
+    <activity android:name=".ReturActivity" />
+
+    <activity android:name=".MutasiActivity" />
+
+    <activity android:name=".TutupTokoActivity" />
+
+    <activity android:name=".CekStokActivity" />
+
+    <activity android:name=".UpdatePromoActivity" />
+
+    <activity android:name=".PesananTertundaActivity" />
+    <activity android:name=".TransaksiBerhasilActivity" />
+    <activity android:name=".LaporanActivity" />
+
+</application>
+</manifest>
