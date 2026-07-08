@@ -5,11 +5,11 @@ aplikasi ElZatta BPOS adalah perangkat lunak berbasis digital yang dirancang unt
 
 ## Daftar Anggota
 
-| No | Nama | NPM | 
-|----|------|-----|
-| 1 | Aldi Alfariz | 24552011212 | 
-| 2 | As’ad Miftahul Haq  | 24552011304 |
-| 3 | Bonafisius Alvis Satriya | 24552011152 | 
+| No | Nama | NPM | Peran |
+|----|------|-----|-------|
+| 1 | Aldi Alfariz | 24552011212 | Frontend |
+| 2 | As’ad Miftahul Haq | 24552011304 | QA Test |
+| 3 | Bonafisius Alvis Satriya | 24552011152 | Backend |
 
 ## Video Penjelasan
 [Link ke video penjelasan aplikasi]
