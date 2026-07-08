@@ -62,6 +62,6 @@ PM_Tugas_Besar/
 ├── apk/                  # Build APK
 │   └── app-release.apk
 ├── docs/                 # Dokumentasi
-│   └── Laporan_OOD_KelompokX.pdf
+│   └── Laporan_PMOB_ Kelompok 1.pdf
 └── README.md
 ```
